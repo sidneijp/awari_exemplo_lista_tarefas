@@ -1,0 +1,13 @@
+html
+  head
+    title Lista de tarefas
+  body
+    h1 Lista de tarefas
+    form(action="/criar_tarefa/", method="post")
+      input(name="texto")
+      input(type="submit", value="+")
+    ul
+      each tarefa in tarefas
+        li=`${tarefa.id}. ${tarefa.texto}, ${tarefa.foi_realizada}`
+          form(action=`/remover_tarefa/${tarefa.id}/`, method="post")
+            input(type="submit", value="X")
