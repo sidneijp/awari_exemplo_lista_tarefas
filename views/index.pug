@@ -10,4 +10,5 @@ html
       each tarefa in tarefas
         li=`${tarefa.id}. ${tarefa.texto}, ${tarefa.foi_realizada}`
           form(action=`/remover_tarefa/${tarefa.id}/`, method="post")
+            input(name="idTarefa", value=tarefa.id, type="hidden")
             input(type="submit", value="X")
