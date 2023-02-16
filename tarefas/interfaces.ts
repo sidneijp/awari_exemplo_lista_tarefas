@@ -3,8 +3,3 @@ interface ITarefa {
     descricao: string,
     foi_realizada: boolean
 }
-
-interface IListaTarefas {
-    tarefas: ITarefa[],
-    ultimoId: number
-}

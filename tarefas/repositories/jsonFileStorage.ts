@@ -1,6 +1,7 @@
 const fs = require('fs')
+require('./interfaces/tarefas.ts')
 
-const obtemTarefas = function() {
+const obtemTarefas = function(): ITarefa[] {
     const json_string = fs.readFileSync('./tarefas.json', {encoding: "utf-8"})
     let dados;
     try {
