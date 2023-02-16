@@ -15,6 +15,8 @@ class TarefasDAO {
     addTarefa(texto) {
         this.repositorio.addTarefa(texto);
     }
+    atualizaTarefa(idTarefa, tarefa) {
+    }
     removeTarefa(idTarefa) {
         this.repositorio.removeTarefa(idTarefa);
     }

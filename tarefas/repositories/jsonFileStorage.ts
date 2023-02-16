@@ -21,6 +21,16 @@ export default class TarefaRepository implements AbstractTarefaRepository {
         TarefaRepository.salvaTarefas(resultado_tarefas)
     }
 
+    public atualizaTarefa(idTarefa: number, tarefa: ITarefa): void {
+        const { tarefas } = TarefaRepository.obtemJson()
+        const _tarefa = tarefas.find(tarefa => tarefa.id == idTarefa)
+        if (_tarefa) {
+            _tarefa.texto = tarefa.texto
+            _tarefa.foi_realizada = tarefa.foi_realizada
+            TarefaRepository.salvaTarefas(tarefas)
+        }
+    }
+
     public obtemTarefa(idTarefa: number): ITarefa | null {
         const tarefas = this.obtemTarefas()
         const tarefa = tarefas.find(t => t.id == idTarefa)

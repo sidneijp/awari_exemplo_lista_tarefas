@@ -22,7 +22,7 @@ class TarefasControllers {
 
     addTarefaController(req, res) {
         const { texto } = req.body
-        Tarefa.addTarefa(texto)
+        this.tarefasDao.addTarefa(texto)
         res.render('tarefa_criada_com_sucesso')
     }
 
@@ -36,7 +36,11 @@ class TarefasControllers {
     mudaEstadoTarefaController(req, res) {
         const { idTarefa } = req.params
         const { foi_realizada } = req.body
-        this.tarefasDao.mudaEstadoTarefa(idTarefa, foi_realizada)
+        const tarefa = this.tarefasDao.obtemTarefa(idTarefa)
+        if (tarefa) {
+            tarefa.foi_realizada = foi_realizada
+            this.tarefasDao.atualizaTarefa(idTarefa, tarefa)
+        }
         res.render('estado_da_tarefa_atualizada_com_sucesso')
     }
 

@@ -18,6 +18,15 @@ class TarefaRepository {
         const resultado_tarefas = tarefas.filter(tarefa => tarefa.id != idTarefa);
         TarefaRepository.salvaTarefas(resultado_tarefas);
     }
+    atualizaTarefa(idTarefa, tarefa) {
+        const { tarefas } = TarefaRepository.obtemJson();
+        const _tarefa = tarefas.find(tarefa => tarefa.id == idTarefa);
+        if (_tarefa) {
+            _tarefa.texto = tarefa.texto;
+            _tarefa.foi_realizada = tarefa.foi_realizada;
+            TarefaRepository.salvaTarefas(tarefas);
+        }
+    }
     obtemTarefa(idTarefa) {
         const tarefas = this.obtemTarefas();
         const tarefa = tarefas.find(t => t.id == idTarefa);

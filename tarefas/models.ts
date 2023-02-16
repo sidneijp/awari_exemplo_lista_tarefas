@@ -20,6 +20,10 @@ export default class TarefasDAO implements ITarefasDAO {
         this.repositorio.addTarefa(texto)
     }
 
+    atualizaTarefa(idTarefa: number, tarefa: ITarefa) {
+
+    }
+
     removeTarefa(idTarefa: number) {
         this.repositorio.removeTarefa(idTarefa)
     }
