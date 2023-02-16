@@ -1,50 +1,26 @@
-import fs from 'fs';
-require('./interfaces/tarefas.ts')
+import './interfaces'
+import './abstract'
 
-export const obtemTarefas = function(): ITarefa[] {
-    const json_string = fs.readFileSync('./tarefas.json', {encoding: "utf-8"})
-    let dados;
-    try {
-        dados = JSON.parse(json_string)
-    } catch (SyntaxError) {
-        dados = {tarefas: [], ultimoId: 0}
+
+export default class TarefasDAO implements ITarefasDAO {
+    repositorio
+
+    constructor(repositorio: AbstractTarefaRepository) {
+        this.repositorio = repositorio
     }
-    return dados
-}
+    obtemTarefa(idTarefa: number): ITarefa | null {
+        return this.repositorio.obtemTarefa(idTarefa)
+    }
 
-const geraProximoId = function() {
-    const {ultimoId} = obtemTarefas()
-    return ultimoId + 1
-}
+    obtemTarefas(): ITarefa[] {
+        return this.repositorio.obtemTarefas()
+    }
 
-const atualizaUltimoId = function(ultimoId) {
-    let { tarefas } = obtemTarefas()
-    tarefas = tarefas || []
-    const dados = {tarefas, ultimoId}
-    const json_string = JSON.stringify(dados)
-    fs.writeFileSync('./tarefas.json', json_string, {encoding: "utf-8"})
-}
+    addTarefa(texto: string) {
+        this.repositorio.addTarefa(texto)
+    }
 
-const salvaTarefas = function(tarefas) {
-    tarefas = tarefas || []
-    const { ultimoId } = obtemTarefas()
-    const dados = {tarefas, ultimoId}
-    const json_string = JSON.stringify(dados)
-    fs.writeFileSync('./tarefas.json', json_string, {encoding: "utf-8"})
+    removeTarefa(idTarefa: number) {
+        this.repositorio.removeTarefa(idTarefa)
+    }
 }
-
-export const addTarefa = function(texto) {
-    const id = geraProximoId()
-    const { tarefas } = obtemTarefas()
-    tarefas.push({id, texto, foi_realizada: false})
-    atualizaUltimoId(id)
-    salvaTarefas(tarefas)
-}
-
-export const removeTarefa = function(idTarefa) {
-    const { tarefas } = obtemTarefas()
-    const resultado_tarefas = tarefas.filter(tarefa => tarefa.id != idTarefa)
-    salvaTarefas(resultado_tarefas)
-}
-
-module.exports = {removeTarefa, addTarefa, obtemTarefas}

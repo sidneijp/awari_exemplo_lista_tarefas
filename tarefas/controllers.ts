@@ -1,40 +1,48 @@
-import Tarefa from './models'
+import TarefasDAO from './models'
+import TarefaRepository from './repositories/jsonFileStorage'
+
 
 class TarefasControllers {
-    obtemTarefasController = (req, res) => {
-        const tarefas = Tarefa.obtemTarefas()
-        res.json({tarefas})
+    tarefasDao
+
+    constructor() {
+        this.tarefasDao = new TarefasDAO(new TarefaRepository())
     }
 
-    obtemTarefaController = (req, res) => {
+    obtemTarefasController(req, res) {
+        const tarefas = this.tarefasDao.obtemTarefas()
+        res.json({ tarefas })
+    }
+
+    obtemTarefaController(req, res) {
         const { idTarefa } = req.params
-        const tarefa = Tarefa.obtemTarefa(idTarefa)
-        res.render('index', {tarefa})
+        const tarefa = this.tarefasDao.obtemTarefa(idTarefa)
+        res.render('index', { tarefa })
     }
 
-    addTarefaController = (req, res) => {
+    addTarefaController(req, res) {
         const { texto } = req.body
         Tarefa.addTarefa(texto)
         res.render('tarefa_criada_com_sucesso')
     }
 
-    atualizaTarefaController = (req, res) => {
+    atualizaTarefaController(req, res) {
         const { idTarefa } = req.params
         const payload = req.body
-        Tarefa.atualizaTarefa(idTarefa, payload)
+        this.tarefasDao.atualizaTarefa(idTarefa, payload)
         res.render('tarefa_atualizada_com_sucesso')
     }
 
-    mudaEstadoTarefaController = (req, res) => {
+    mudaEstadoTarefaController(req, res) {
         const { idTarefa } = req.params
         const { foi_realizada } = req.body
-        Tarefa.mudaEstadoTarefa(idTarefa, foi_realizada)
+        this.tarefasDao.mudaEstadoTarefa(idTarefa, foi_realizada)
         res.render('estado_da_tarefa_atualizada_com_sucesso')
     }
 
-    removeTarefaController = (req, res) => {
+    removeTarefaController(req, res) {
         const { idTarefa } = req.params
-        Tarefa.removeTarefa(idTarefa)
+        this.tarefasDao.removeTarefa(idTarefa)
         res.render('tarefa_removida_com_sucesso')
     }
 }

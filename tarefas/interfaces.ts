@@ -1,5 +1,12 @@
 interface ITarefa {
-    id: number,
-    descricao: string,
+    id: number
+    texto: string
     foi_realizada: boolean
+}
+
+interface ITarefasDAO {
+    addTarefa(texto: string): void
+    removeTarefa(idTarefa: number): void
+    obtemTarefa(idTarefa: number): ITarefa | null
+    obtemTarefas(): ITarefa[]
 }
